@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Dict, List
 from fastapi import FastAPI
@@ -32,6 +33,7 @@ async def root():
 def read_root(chat_request: ChatRequest):
     if chat_request.api_key:
         openai.api_key = chat_request.api_key
+    logging.info(str(chat_request))
     response = openai.ChatCompletion.create(
         model=chat_request.model,
         temperature=chat_request.temperature,
@@ -40,6 +42,7 @@ def read_root(chat_request: ChatRequest):
     )
     reply = response["choices"][0]["message"]["content"]
     openai.api_key = os.getenv('OPENAI_API_KEY')
+    logging.info(f"Reply: {reply}")
     return {"sender": "bot", "text": reply}
 
 @app.get("/isAlive")
