@@ -41,3 +41,7 @@ def read_root(chat_request: ChatRequest):
     reply = response["choices"][0]["message"]["content"]
     openai.api_key = os.getenv('OPENAI_API_KEY')
     return {"sender": "bot", "text": reply}
+
+@app.get("/isAlive")
+def is_alive():
+    return {"is_alive": True}
